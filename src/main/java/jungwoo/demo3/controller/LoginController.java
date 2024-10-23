@@ -47,42 +47,36 @@ public class LoginController extends HttpServlet {
 
         String mid = req.getParameter("mid");
         String mpw = req.getParameter("mpw");
-
-        String auto  = req.getParameter("auto");
+        String auto = req.getParameter("auto");
 
         boolean rememberMe = auto != null && auto.equals("on");
 
         log.info("-----------------------------");
         log.info(rememberMe);
 
-
         try {
             MemberDTO memberDTO = MemberService.INSTANCE.login(mid, mpw);
 
-            if(rememberMe){
+            if (rememberMe) {
                 String uuid = UUID.randomUUID().toString();
-
                 MemberService.INSTANCE.updateUuid(mid, uuid);
                 memberDTO.setUuid(uuid);
 
-                Cookie rememberCookie =
-                        new Cookie("remember-me", uuid);
-                rememberCookie.setMaxAge(60*60*24*7);  //쿠키의 유효기간은 1주일
+                Cookie rememberCookie = new Cookie("remember-me", uuid);
+                rememberCookie.setMaxAge(60 * 60 * 24 * 7);  // 유효 기간: 1주일
                 rememberCookie.setPath("/");
-
                 resp.addCookie(rememberCookie);
-
             }
 
-
             HttpSession session = req.getSession();
-
             session.setAttribute("loginInfo", memberDTO);
 
-            resp.sendRedirect("/todo/list");
+            // 리다이렉트 시 컨텍스트 경로 포함
+            resp.sendRedirect(req.getContextPath() + "/todo/list");
 
         } catch (Exception e) {
-            resp.sendRedirect("/login?result=error");
+            // 로그인 실패 시 컨텍스트 경로 포함
+            resp.sendRedirect(req.getContextPath() + "/login?result=error");
         }
     }
 
