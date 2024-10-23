@@ -6,11 +6,6 @@
 </head>
 <body>
 
-<!-- 로그인 에러 메시지 표시 -->
-<c:if test="${param.result == 'error'}">
-    <h1>로그인 에러: 잘못된 ID 또는 비밀번호입니다.</h1>
-</c:if>
-
 <!-- 로그인 폼 -->
 <form action="${pageContext.request.contextPath}/login" method="post">
     <label for="mid">아이디: </label>
@@ -28,7 +23,7 @@
 
 <!-- 회원가입 버튼 -->
 <div>
-    <button onclick="location.href='${pageContext.request.contextPath}/register'">
+    <button onclick="location.href='${pageContext.request.contextPath}/signup'">
         회원가입
     </button>
 </div>
