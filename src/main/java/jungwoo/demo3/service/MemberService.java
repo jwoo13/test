@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import jungwoo.demo3.dao.MemberDAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 
 @Log4j2
@@ -30,7 +32,7 @@ public enum MemberService {
 
         MemberDTO memberDTO = modelMapper.map(vo, MemberDTO.class);
 
-        return memberDTO;
+        return modelMapper.map(vo, MemberDTO.class);
     }
 
     public void updateUuid(String mid, String uuid)throws Exception {
@@ -43,9 +45,18 @@ public enum MemberService {
 
         MemberVO vo = dao.selectUUID(uuid);
 
-        MemberDTO memberDTO = modelMapper.map(vo, MemberDTO.class);
+        if (vo == null) {
+            throw new Exception("User not found with UUID: " + uuid);
+        }
 
-        return memberDTO;
+        return modelMapper.map(vo, MemberDTO.class);
+    }
+
+    public void register(MemberDTO memberDTO) throws Exception {
+
+        MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
+
+        dao.insertMember(memberVO);
     }
 
 

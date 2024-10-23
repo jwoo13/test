@@ -71,11 +71,11 @@ public class LoginController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("loginInfo", memberDTO);
 
-            // 리다이렉트 시 컨텍스트 경로 포함
-            resp.sendRedirect(req.getContextPath() + "/todo/list");
+
+            resp.sendRedirect(req.getContextPath() + "/vote/list");
 
         } catch (Exception e) {
-            // 로그인 실패 시 컨텍스트 경로 포함
+
             resp.sendRedirect(req.getContextPath() + "/login?result=error");
         }
     }

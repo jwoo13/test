@@ -19,7 +19,7 @@ public enum ConnectionUtil {
         config.setJdbcUrl("jdbc:mysql://pilab.smu.ac.kr:3306/nachanee12_db");
         config.setUsername("nachanee12");
         config.setPassword("C8vWqX3pLj!");
-        //
+
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

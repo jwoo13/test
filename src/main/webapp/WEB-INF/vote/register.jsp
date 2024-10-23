@@ -1,15 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Register</title>
 </head>
 <body>
-<form action="/todo/register" method="post">
+<form action="${pageContext.request.contextPath}/register" method="post">
     <div>
-        <input type="text" name="title" placeholder="INSERT TITLE">
+        <input type="text" name="title" placeholder="INSERT TITLE" required>
     </div>
     <div>
-        <input type="date" name="dueDate">
+        <input type="date" name="dueDate" required>
     </div>
     <div>
         <button type="reset">RESET</button>

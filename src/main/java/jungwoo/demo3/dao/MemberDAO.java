@@ -76,4 +76,17 @@ public class MemberDAO {
 
     }
 
+
+    public void insertMember(MemberVO member) throws Exception {
+        String sql = "INSERT INTO member (mid, mpw, mname, uuid) VALUES (?, ?, ?, ?)";
+
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, member.getMid());
+        preparedStatement.setString(2, member.getMpw());
+        preparedStatement.setString(3, member.getMname());
+        preparedStatement.setString(4, member.getUuid());
+
+        preparedStatement.executeUpdate();
+    }
 }

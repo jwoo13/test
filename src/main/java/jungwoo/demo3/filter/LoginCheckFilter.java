@@ -12,92 +12,41 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Optional;
+
 
 
 @WebFilter(urlPatterns = {"/vote/*"})
 @Log4j2
 public class LoginCheckFilter implements Filter {
-//    @Override
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//
-//        log.info("Login check filter....");
-//
-//        chain.doFilter(request, response);
-//    }
-//    @Override
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//
-//        log.info("Login check filter....");
-//
-//        HttpServletRequest req = (HttpServletRequest)request;
-//        HttpServletResponse resp = (HttpServletResponse)response;
-//
-//        HttpSession session = req.getSession();
-//
-//        if(session.getAttribute("loginInfo") == null){
-//
-//            resp.sendRedirect("/login");
-//
-//            return;
-//        }
-//
-//        chain.doFilter(request, response);
-//    }
-
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         log.info("Login check filter....");
 
-        HttpServletRequest req = (HttpServletRequest)request;
-        HttpServletResponse resp = (HttpServletResponse)response;
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
 
-        HttpSession session = req.getSession();
+        String requestURI = req.getRequestURI();
+        String contextPath = req.getContextPath();
+        String registerPath = contextPath + "/register";
 
-        if(session.getAttribute("loginInfo") == null){
+        log.info("Request URI: " + requestURI);
+        log.info("Register Path: " + registerPath);
 
-            //쿠키를 체크
-            Cookie cookie = findCookie(req.getCookies(), "remember-me");
+        if (requestURI.equals(registerPath)) {
+            log.info("회원가입 경로는 필터에서 제외됩니다.");
+            chain.doFilter(request, response);
+            return;
+        }
 
-            if(cookie != null){
+        HttpSession session = req.getSession(false);
 
-                log.info("cookie는 존재하는 상황");
-                String uuid  = cookie.getValue();
-
-                try {
-                    MemberDTO memberDTO = MemberService.INSTANCE.getByUUID(uuid);
-
-                    log.info("쿠키의 값으로 조회한 사용자 정보: " + memberDTO );
-
-                    session.setAttribute("loginInfo", memberDTO);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                chain.doFilter(request, response);
-                return;
-            }
-
-            resp.sendRedirect("/login");
-
+        if (session == null || session.getAttribute("loginInfo") == null) {
+            log.info("로그인되지 않은 사용자, 로그인 페이지로 리다이렉트합니다.");
+            resp.sendRedirect(contextPath + "/login");
             return;
         }
 
         chain.doFilter(request, response);
     }
-
-    private Cookie findCookie(Cookie[] cookies, String name){
-
-        if(cookies == null || cookies.length == 0){
-            return null;
-        }
-
-        Optional<Cookie> result = Arrays.stream(cookies).filter(ck -> ck.getName().equals(name)).findFirst();
-
-        return result.isPresent()?result.get():null;
-    }
-
-
 }
