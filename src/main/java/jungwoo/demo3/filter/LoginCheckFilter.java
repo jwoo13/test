@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 
 
-@WebFilter(urlPatterns = {"/vote/*"})
+@WebFilter(urlPatterns = {"/Vote/*"})
 @Log4j2
 public class LoginCheckFilter implements Filter {
 
@@ -33,11 +33,13 @@ public class LoginCheckFilter implements Filter {
         log.info("Request URI: " + requestURI);
         log.info("Register Path: " + registerPath);
 
+
         if (requestURI.equals(registerPath)) {
             log.info("회원가입 경로는 필터에서 제외됩니다.");
             chain.doFilter(request, response);
             return;
         }
+
 
         HttpSession session = req.getSession(false);
 
