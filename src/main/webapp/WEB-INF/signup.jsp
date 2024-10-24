@@ -17,10 +17,6 @@
         <input type="password" id="mpw" name="mpw" placeholder="비밀번호 입력" required>
     </div>
     <div>
-        <label for="mname">이름:</label>
-        <input type="text" id="mname" name="mname" placeholder="이름 입력" required>
-    </div>
-    <div>
         <button type="reset">초기화</button>
         <button type="submit">회원가입</button>
     </div>
