@@ -1,21 +1,19 @@
-package jungwoo.demo3.domain;
+package jungwoo.demo3.dto;
 
 import lombok.*;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
 @Builder
-@ToString
-@Setter
+@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class VoteVO {
+public class VoteDTO {
+
     private Long id;
     private String title;
     private List<String> options;
-
-//    private Long creatorUserId;
 
 }

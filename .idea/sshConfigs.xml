@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="13.125.68.151" id="839d554e-3be6-4b87-a2d3-38f55a7a9a71" keyPath="C:\Users\nacha\Desktop\jungwoo_keyPair.pem" port="22" nameFormat="DESCRIPTIVE" username="ec2-user" useOpenSSHConfig="true" />
+      <sshConfig host="13.125.68.151" id="839d554e-3be6-4b87-a2d3-38f55a7a9a71" keyPath="C:\Users\nacha\OneDrive\바탕 화면\jungwoo_keyPair.pem" port="22" nameFormat="DESCRIPTIVE" username="ec2-user" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

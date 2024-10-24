@@ -54,7 +54,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("loginInfo", memberDTO);
 
 
-            resp.sendRedirect(req.getContextPath() + "/vote/list");
+            resp.sendRedirect(req.getContextPath() + "/Vote/list");
 
         } catch (Exception e) {
             req.getRequestDispatcher("/WEB-INF/login-error.jsp").forward(req,resp);
