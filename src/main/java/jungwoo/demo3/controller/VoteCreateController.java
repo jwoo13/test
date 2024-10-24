@@ -41,7 +41,7 @@ public class VoteCreateController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        resp.sendRedirect("/Vote/list");
+        resp.sendRedirect(req.getContextPath() + "/Vote/list");
 
     }
 }
