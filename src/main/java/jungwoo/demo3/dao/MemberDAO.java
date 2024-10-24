@@ -98,6 +98,6 @@ public class MemberDAO {
         @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
         resultSet.next();
-        return resultSet.getInt(1) > 0;  // 아이디가 존재하면 true 반환
+        return resultSet.getInt(1) > 0;
     }
 }

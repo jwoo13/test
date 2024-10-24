@@ -35,8 +35,8 @@
     </div>
     <button type="button" onclick="addOption()">옵션 추가</button>
     <div>
-        <button type="reset">RESET</button>
-        <button type="submit">REGISTER</button>
+        <button type="reset">리셋</button>
+        <button type="submit">등록</button>
     </div>
 </form>
 </body>

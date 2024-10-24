@@ -6,7 +6,6 @@ import jungwoo.demo3.domain.VoteVO;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class VoteDAO {
 

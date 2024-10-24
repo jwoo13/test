@@ -14,9 +14,6 @@
     <label for="mpw">비밀번호: </label>
     <input type="password" id="mpw" name="mpw" required><br>
 
-    <label>
-        <input type="checkbox" name="auto"> 자동 로그인
-    </label><br>
 
     <button type="submit">LOGIN</button>
 </form>

@@ -23,7 +23,6 @@ public class RegisterController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/signup.jsp").forward(req, resp);
     }
 
-    // POST 요청 처리: 회원가입 처리 로직
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("회원가입 요청 POST");

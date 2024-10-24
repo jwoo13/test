@@ -23,13 +23,13 @@ public class VoteRemoveController extends HttpServlet {
         log.info("id: " + id);
 
         try {
-            voteService.removeVote(id);  // 투표 삭제 서비스 호출
+            voteService.removeVote(id);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new ServletException("조회 오류", e);
         }
 
-        // Context Path 포함하여 리디렉션
+
         resp.sendRedirect(req.getContextPath() + "/Vote/list");
     }
 }
