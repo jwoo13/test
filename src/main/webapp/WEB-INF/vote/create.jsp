@@ -21,7 +21,7 @@
 </head>
 <body>
 <h1>새 투표 작성</h1>
-<form action="/Vote/create" method="post">
+<form action="${pageContext.request.contextPath}/Vote/create" method="post">
     <div>
         <label for="title">제목:</label>
         <input type="text" name="title" id="title" placeholder="투표 제목 입력" required>
