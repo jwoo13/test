@@ -7,10 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import jungwoo.demo3.dao.MemberDAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
-
 @Log4j2
 public enum MemberService {
     INSTANCE;

@@ -7,7 +7,6 @@
 
 <h1>회원가입</h1>
 
-<!-- 회원가입 폼 -->
 <form action="${pageContext.request.contextPath}/signup" method="post">
     <div>
         <label for="mid">아이디:</label>

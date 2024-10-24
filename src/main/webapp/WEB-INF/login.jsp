@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<!-- 로그인 폼 -->
+
 <form action="${pageContext.request.contextPath}/login" method="post">
     <label for="mid">아이디: </label>
     <input type="text" id="mid" name="mid" required><br>
@@ -21,7 +21,7 @@
     <button type="submit">LOGIN</button>
 </form>
 
-<!-- 회원가입 버튼 -->
+
 <div>
     <button onclick="location.href='${pageContext.request.contextPath}/signup'">
         회원가입

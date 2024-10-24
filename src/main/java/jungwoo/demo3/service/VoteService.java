@@ -3,16 +3,12 @@ package jungwoo.demo3.service;
 
 import jungwoo.demo3.dao.VoteDAO;
 import jungwoo.demo3.domain.VoteVO;
-import jungwoo.demo3.dto.MemberDTO;
 import jungwoo.demo3.dto.VoteDTO;
 import jungwoo.demo3.util.MapperUtil;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -32,7 +28,6 @@ public enum VoteService {
 
         List<VoteVO> voList = dao.selectAll();
 
-        log.info("voList.................");
         log.info(voList);
 
         List<VoteDTO> dtoList = voList.stream()
@@ -50,23 +45,23 @@ public enum VoteService {
         dao.insert(voteVO);
     }
 
-    public VoteDTO getVote(Long id)throws Exception {
+    public VoteDTO getVote(Long id) throws Exception {
 
-        log.info("voteId: " + id);
         VoteVO voteVO = dao.selectOne(id);
         VoteDTO voteDTO = modelMapper.map(voteVO, VoteDTO.class);
+
         return voteDTO;
     }
 
+
+
     public void removeVote(Long id)throws Exception {
 
-        log.info("VoteId: " + id);
         dao.deleteOne(id);
     }
 
     public void modifyVote(VoteDTO voteDTO)throws Exception {
 
-        log.info("voteDTO: " + voteDTO );
 
         VoteVO voteVO = modelMapper.map(voteDTO, VoteVO.class);
 
@@ -83,5 +78,6 @@ public enum VoteService {
                 .map(vo -> modelMapper.map(vo, VoteDTO.class))
                 .collect(Collectors.toList());
     }
+
 
 }

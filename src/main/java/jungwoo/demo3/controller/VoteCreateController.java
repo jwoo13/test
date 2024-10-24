@@ -10,11 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @WebServlet(name = "VoteCreateController", value = "/Vote/create")
 @Log4j2
@@ -25,7 +21,7 @@ public class VoteCreateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        log.info("/vote/create GET .......");
+        log.info("투표 만들기 GET");
         req.getRequestDispatcher("/WEB-INF/vote/create.jsp").forward(req, resp);
 
     }
@@ -33,18 +29,23 @@ public class VoteCreateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String title = req.getParameter("title");
+        String[] options = req.getParameterValues("options");
+
         VoteDTO voteDTO = VoteDTO.builder()
-                .title(req.getParameter("title"))
+                .title(title)
+                .options(Arrays.asList(options))
                 .build();
 
-        log.info("/feed/create POST...");
+        log.info("투표 만들기 POST");
         log.info(voteDTO);
+
         try {
             voteService.createVote(voteDTO);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        resp.sendRedirect(req.getContextPath() + "/Vote/list");
 
+        resp.sendRedirect(req.getContextPath() + "/Vote/list");
     }
 }

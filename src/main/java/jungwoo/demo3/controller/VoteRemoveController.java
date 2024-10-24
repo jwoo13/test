@@ -16,8 +16,6 @@ public class VoteRemoveController extends HttpServlet {
 
     private VoteService voteService = VoteService.INSTANCE;
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -28,7 +26,7 @@ public class VoteRemoveController extends HttpServlet {
             voteService.removeVote(id);
         }catch(Exception e){
             log.error(e.getMessage());
-            throw new ServletException("read error");
+            throw new ServletException("조회 오류");
         }
         resp.sendRedirect("/Vote/list");
 

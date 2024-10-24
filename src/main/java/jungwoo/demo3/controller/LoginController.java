@@ -17,15 +17,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        log.info("login get.............");
-
         req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        log.info("login post........");
 
         String mid = req.getParameter("mid");
         String mpw = req.getParameter("mpw");
@@ -33,7 +29,6 @@ public class LoginController extends HttpServlet {
 
         boolean rememberMe = auto != null && auto.equals("on");
 
-        log.info("-----------------------------");
         log.info(rememberMe);
 
         try {

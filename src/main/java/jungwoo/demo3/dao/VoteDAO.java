@@ -10,10 +10,6 @@ import java.util.stream.Collectors;
 
 public class VoteDAO {
 
-
-
-
-    //가져오기
     public List<VoteVO> selectAll()throws Exception  {
 
         String sql = "select * from vote";
@@ -39,12 +35,14 @@ public class VoteDAO {
 
 
     public void insert(VoteVO vo) throws Exception {
-        String sql = "INSERT INTO vote (title) VALUES (?)";
+        String sql = "INSERT INTO vote (title, options) VALUES (?, ?)";
 
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setString(1, vo.getTitle());
+        preparedStatement.setString(2, String.join(",", vo.getOptions()));  // 옵션을 콤마로 구분해 저장
+
         preparedStatement.executeUpdate();
 
         @Cleanup ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -54,22 +52,29 @@ public class VoteDAO {
     }
 
     public VoteVO selectOne(Long id) throws Exception {
-        String sql = "select * from vote where id = ?";
+        String sql = "SELECT * FROM vote WHERE id = ?";
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         preparedStatement.setLong(1, id);
-
         @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
-        resultSet.next();
-        VoteVO vo = VoteVO.builder()
+        if (!resultSet.next()) {
+            throw new IllegalArgumentException("해당 ID의 투표가 존재하지 않습니다.");
+        }
+
+        String optionsStr = resultSet.getString("options");
+
+        List<String> options = Arrays.asList(optionsStr.split(","));
+
+        return VoteVO.builder()
                 .id(resultSet.getLong("id"))
                 .title(resultSet.getString("title"))
+                .options(options)
                 .build();
-
-        return vo;
     }
+
+
 
     public void deleteOne(Long id) throws Exception {
 

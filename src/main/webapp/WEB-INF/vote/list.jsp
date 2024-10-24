@@ -12,8 +12,6 @@
 
 <a href="${pageContext.request.contextPath}/Vote/create">[새 글 작성]</a>
 
-
-<!-- 검색 폼 -->
 <form action="${pageContext.request.contextPath}/Vote/search" method="get">
     <input type="text" name="keyword" placeholder="검색어 입력" required>
     <button type="submit">검색</button>
@@ -23,7 +21,11 @@
     <c:forEach items="${VoteList}" var="vote">
         <li>
             <hr>
-            <h2><a href="/Vote/read?id=${vote.id}">${vote.title}</a></h2>
+            <h2>
+                <a href="${pageContext.request.contextPath}/Vote/read?id=${vote.id}">
+                        ${vote.title}
+                </a>
+            </h2>
             <form action="${pageContext.request.contextPath}/Vote/remove" method="post">
                 <input type="hidden" name="id" value="${vote.id}">
                 <button type="submit">삭제</button>
@@ -31,6 +33,8 @@
         </li>
     </c:forEach>
 </ul>
+
+
 <form action="${pageContext.request.contextPath}/logout" method="post">
     <button type="submit">Logout</button>
 </form>
