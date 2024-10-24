@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -11,39 +10,7 @@
 <h1>Vote List</h1>
 
 
-<h3>* 새 글 작성 *</h3>
-<form action="${pageContext.request.contextPath}/Vote/create" method="post">
-    <div>
-        <input type="text" name="title" placeholder="INSERT CONTENT" required>
-    </div>
-    <div>
-        <button type="reset">RESET</button>
-        <button type="submit">REGISTER</button>
-    </div>
-</form>
-
-<%--<ul>--%>
-<%--    <c:forEach items="${VoteList}" var="vote">--%>
-<%--        <li>--%>
-<%--            <hr>--%>
-<%--            <h2>글 내용:<a href="/Vote/read?id=${vote.id}">클릭</a></h2>--%>
-<%--            <br>--%>
-<%--            <strong>- 내용:</strong> ${vote.title}--%>
-<%--            <br>--%>
-
-<%--            <form action="${pageContext.request.contextPath}/Vote/remove" method="post">--%>
-<%--                <input type="hidden" name="id" value="${vote.id}">--%>
-<%--                <button type="submit">게시물 삭제</button>--%>
-<%--            </form>--%>
-
-<%--            <a href="/Vote/modify?id=${vote.id}" class="button">게시물 수정</a>--%>
-
-<%--            <br>--%>
-<%--        </li>--%>
-<%--    </c:forEach>--%>
-<%--</ul>--%>
-
-
+<a href="${pageContext.request.contextPath}/Vote/create">[새 글 작성]</a>
 
 
 <!-- 검색 폼 -->
@@ -64,7 +31,9 @@
         </li>
     </c:forEach>
 </ul>
-
+<form action="${pageContext.request.contextPath}/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
 
 
 

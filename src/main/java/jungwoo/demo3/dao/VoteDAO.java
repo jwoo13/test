@@ -5,9 +5,7 @@ import lombok.Cleanup;
 import jungwoo.demo3.domain.VoteVO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class VoteDAO {
@@ -31,7 +29,7 @@ public class VoteDAO {
             VoteVO vo = VoteVO.builder()
                     .id(resultSet.getLong("id"))
                     .title(resultSet.getString("title"))
-                      .build();
+                    .build();
 
             list.add(vo);
         }

@@ -3,12 +3,16 @@ package jungwoo.demo3.service;
 
 import jungwoo.demo3.dao.VoteDAO;
 import jungwoo.demo3.domain.VoteVO;
+import jungwoo.demo3.dto.MemberDTO;
 import jungwoo.demo3.dto.VoteDTO;
 import jungwoo.demo3.util.MapperUtil;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -49,7 +53,7 @@ public enum VoteService {
     public VoteDTO getVote(Long id)throws Exception {
 
         log.info("voteId: " + id);
-         VoteVO voteVO = dao.selectOne(id);
+        VoteVO voteVO = dao.selectOne(id);
         VoteDTO voteDTO = modelMapper.map(voteVO, VoteDTO.class);
         return voteDTO;
     }
