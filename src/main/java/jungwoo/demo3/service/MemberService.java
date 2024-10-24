@@ -49,11 +49,12 @@ public enum MemberService {
     }
 
     public void register(MemberDTO memberDTO) throws Exception {
+        if (dao.existsByMid(memberDTO.getMid())) {
+            throw new Exception("이미 존재하는 아이디입니다: " + memberDTO.getMid());
+        }
 
         MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
-
         dao.insertMember(memberVO);
     }
-
 
 }

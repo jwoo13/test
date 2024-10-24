@@ -19,9 +19,11 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("회원가입 요청 GET");
+
         req.getRequestDispatcher("/WEB-INF/signup.jsp").forward(req, resp);
     }
 
+    // POST 요청 처리: 회원가입 처리 로직
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("회원가입 요청 POST");
@@ -29,21 +31,21 @@ public class RegisterController extends HttpServlet {
         try {
             String mid = req.getParameter("mid");
             String mpw = req.getParameter("mpw");
-            String mname = req.getParameter("mname");
 
             MemberDTO memberDTO = MemberDTO.builder()
                     .mid(mid)
                     .mpw(mpw)
-                    .mname(mname)
                     .uuid(UUID.randomUUID().toString())
                     .build();
 
             MemberService.INSTANCE.register(memberDTO);
+
             resp.sendRedirect(req.getContextPath() + "/login");
 
         } catch (Exception e) {
             log.error("회원가입에러", e);
-            req.getRequestDispatcher("/WEB-INF/signup-error.jsp").forward(req,resp);
+
+            req.getRequestDispatcher("/WEB-INF/signup-error.jsp").forward(req, resp);
         }
     }
 }

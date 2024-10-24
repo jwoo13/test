@@ -6,7 +6,7 @@
 <body>
 
 <h1>회원가입 에러</h1>
-<p>이미 존재하는 아이디입니다. 다른 아이디를 사용해 주세요.</p>
+<p>${errorMessage}</p>  <!-- 전달된 오류 메시지 출력 -->
 
 <button onclick="location.href='${pageContext.request.contextPath}/signup'">
     회원가입으로 돌아가기

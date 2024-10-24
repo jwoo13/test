@@ -12,7 +12,7 @@ public class MemberDAO {
 
     public MemberVO getWithPassword(String mid, String mpw) throws Exception {
 
-        String query = "select mid, mpw, mname from member where mid =? and mpw = ?";
+        String query = "select mid, mpw from member where mid =? and mpw = ?";
 
         MemberVO memberVO = null;
 
@@ -29,7 +29,6 @@ public class MemberDAO {
         memberVO = MemberVO.builder()
                 .mid(resultSet.getString(1))
                 .mpw(resultSet.getString(2))
-                .mname(resultSet.getString(3))
                 .build();
 
         return memberVO;
@@ -54,7 +53,7 @@ public class MemberDAO {
 
     public MemberVO selectUUID(String uuid) throws Exception{
 
-        String query = "select mid, mpw, mname, uuid from member where uuid =?";
+        String query = "select mid, mpw, uuid from member where uuid =?";
 
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement =
@@ -68,8 +67,7 @@ public class MemberDAO {
         MemberVO memberVO = MemberVO.builder()
                 .mid(resultSet.getString(1))
                 .mpw(resultSet.getString(2))
-                .mname(resultSet.getString(3))
-                .uuid(resultSet.getString(4))
+                .uuid(resultSet.getString(3))
                 .build();
 
         return memberVO;
@@ -78,15 +76,28 @@ public class MemberDAO {
 
 
     public void insertMember(MemberVO member) throws Exception {
-        String sql = "INSERT INTO member (mid, mpw, mname, uuid) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO member (mid, mpw, uuid) VALUES (?, ?, ?)";
 
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, member.getMid());
         preparedStatement.setString(2, member.getMpw());
-        preparedStatement.setString(3, member.getMname());
-        preparedStatement.setString(4, member.getUuid());
+        preparedStatement.setString(3, member.getUuid());
 
         preparedStatement.executeUpdate();
+    }
+
+    public boolean existsByMid(String mid) throws Exception {
+        String sql = "SELECT COUNT(*) FROM member WHERE mid = ?";
+
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setString(1, mid);
+
+        @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
+
+        resultSet.next();
+        return resultSet.getInt(1) > 0;  // 아이디가 존재하면 true 반환
     }
 }
