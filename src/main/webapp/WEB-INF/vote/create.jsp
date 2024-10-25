@@ -8,7 +8,7 @@
             const optionDiv = document.createElement("div");
             optionDiv.innerHTML = `
                 <input type="text" name="options" placeholder="옵션 입력">
-                <button type="button" onclick="removeOption(this)">삭제</button>
+                <button type="button" onclick="removeOption(this)">-</button>
             `;
             optionList.appendChild(optionDiv);
         }
@@ -27,16 +27,16 @@
         <input type="text" name="title" id="title" placeholder="투표 제목 입력" required>
     </div>
     <div id="optionList">
-        <h3>옵션 목록</h3>
+        <h3>투표 항목 입력</h3>
         <div>
             <input type="text" name="options" placeholder="옵션 입력">
-            <button type="button" onclick="removeOption(this)">삭제</button>
+            <button type="button" onclick="removeOption(this)">-</button>
         </div>
     </div>
-    <button type="button" onclick="addOption()">옵션 추가</button>
+    <button type="button" onclick="addOption()">+</button>
     <div>
         <button type="reset">리셋</button>
-        <button type="submit">등록</button>
+        <button type="submit">완료</button>
     </div>
 </form>
 </body>

@@ -7,10 +7,9 @@
     <title>list 페이지</title>
 </head>
 <body>
-<h1>Vote List</h1>
+<h1>투표 리스트</h1>
 
 
-<a href="${pageContext.request.contextPath}/Vote/create">[새 글 작성]</a>
 
 <form action="${pageContext.request.contextPath}/Vote/search" method="get">
     <input type="text" name="keyword" placeholder="검색어 입력" required>
@@ -34,6 +33,10 @@
     </c:forEach>
 </ul>
 
+
+
+<a href="${pageContext.request.contextPath}/Vote/create">투표작성</a>
+<br>
 
 <form action="${pageContext.request.contextPath}/logout" method="post">
     <button type="submit">Logout</button>
