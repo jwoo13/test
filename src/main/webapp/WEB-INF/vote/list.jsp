@@ -21,11 +21,18 @@
         <li>
             <hr>
             <h2>
+
                 <a href="${pageContext.request.contextPath}/Vote/read?id=${vote.id}">
                         ${vote.title}
                 </a>
             </h2>
-            <form action="${pageContext.request.contextPath}/Vote/remove" method="post">
+
+
+            <a href="${pageContext.request.contextPath}/Vote/result?id=${vote.id}">
+                결과 보기
+            </a>
+
+            <form action="${pageContext.request.contextPath}/Vote/remove" method="post" style="display: inline;">
                 <input type="hidden" name="id" value="${vote.id}">
                 <button type="submit">삭제</button>
             </form>

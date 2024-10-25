@@ -33,6 +33,6 @@
     <button type="submit">완료</button>
 </form>
 
-<a href="${pageContext.request.contextPath}/Vote/list">[목록으로]</a>
+<a href="${pageContext.request.contextPath}/Vote/list">목록으로</a>
 </body>
 </html>

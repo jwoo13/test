@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -77,6 +78,10 @@ public enum VoteService {
         return voList.stream()
                 .map(vo -> modelMapper.map(vo, VoteDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<Map<String, Object>> getVoteCounts(Long voteId) throws Exception {
+        return dao.getVoteCountsById(voteId);
     }
 
 }

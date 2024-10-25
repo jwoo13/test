@@ -154,4 +154,24 @@ public class VoteDAO {
     }
 
 
+    public List<Map<String, Object>> getVoteCountsById(Long voteId) throws Exception {
+        String sql = "SELECT option_text, vote_count FROM vote_option WHERE vote_id = ?";
+
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setLong(1, voteId);
+
+        @Cleanup ResultSet rs = stmt.executeQuery();
+        List<Map<String, Object>> optionList = new ArrayList<>();
+
+        while (rs.next()) {
+            Map<String, Object> option = new HashMap<>();
+            option.put("optionText", rs.getString("option_text"));
+            option.put("voteCount", rs.getInt("vote_count"));
+            optionList.add(option);
+        }
+
+        return optionList;
+    }
+
 }
