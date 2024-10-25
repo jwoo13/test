@@ -34,45 +34,65 @@ public class VoteDAO {
 
 
     public void insert(VoteVO vo) throws Exception {
-        String sql = "INSERT INTO vote (title, options) VALUES (?, ?)";
+        String voteSql = "INSERT INTO vote (title) VALUES (?)";
+        String optionSql = "INSERT INTO vote_option (vote_id, option_text) VALUES (?, ?)";
 
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        connection.setAutoCommit(false);
 
-        preparedStatement.setString(1, vo.getTitle());
-        preparedStatement.setString(2, String.join(",", vo.getOptions()));  // 옵션을 콤마로 구분해 저장
+        try {
+            @Cleanup PreparedStatement voteStmt = connection.prepareStatement(voteSql, Statement.RETURN_GENERATED_KEYS);
+            voteStmt.setString(1, vo.getTitle());
+            voteStmt.executeUpdate();
 
-        preparedStatement.executeUpdate();
+            @Cleanup ResultSet generatedKeys = voteStmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                vo.setId(generatedKeys.getLong(1));
+            }
 
-        @Cleanup ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            vo.setId(generatedKeys.getLong(1));
+            @Cleanup PreparedStatement optionStmt = connection.prepareStatement(optionSql);
+            for (String option : vo.getOptions()) {
+                optionStmt.setLong(1, vo.getId());
+                optionStmt.setString(2, option);
+                optionStmt.addBatch();
+            }
+            optionStmt.executeBatch();
+
+            connection.commit();
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
         }
     }
 
     public VoteVO selectOne(Long id) throws Exception {
-        String sql = "SELECT * FROM vote WHERE id = ?";
+        String voteSql = "SELECT * FROM vote WHERE id = ?";
+        String optionSql = "SELECT * FROM vote_option WHERE vote_id = ?";
+
         @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        @Cleanup PreparedStatement voteStmt = connection.prepareStatement(voteSql);
+        voteStmt.setLong(1, id);
+        @Cleanup ResultSet voteResult = voteStmt.executeQuery();
 
-        preparedStatement.setLong(1, id);
-        @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (!resultSet.next()) {
-            throw new IllegalArgumentException("해당 ID의 투표가 존재하지 않습니다.");
+        if (!voteResult.next()) {
+            throw new IllegalArgumentException("ID 투표가 존재하지 않음");
         }
 
-        String optionsStr = resultSet.getString("options");
+        @Cleanup PreparedStatement optionStmt = connection.prepareStatement(optionSql);
+        optionStmt.setLong(1, id);
+        @Cleanup ResultSet optionResult = optionStmt.executeQuery();
 
-        List<String> options = Arrays.asList(optionsStr.split(","));
+        List<String> options = new ArrayList<>();
+        while (optionResult.next()) {
+            options.add(optionResult.getString("option_text"));
+        }
 
         return VoteVO.builder()
-                .id(resultSet.getLong("id"))
-                .title(resultSet.getString("title"))
+                .id(voteResult.getLong("id"))
+                .title(voteResult.getString("title"))
                 .options(options)
                 .build();
     }
-
 
 
     public void deleteOne(Long id) throws Exception {
@@ -121,4 +141,17 @@ public class VoteDAO {
 
         return list;
     }
+
+    public void incrementVoteCount(Long voteId, String selectedOption) throws Exception {
+        String sql = "UPDATE vote_option SET vote_count = vote_count + 1 WHERE vote_id = ? AND option_text = ?";
+
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setLong(1, voteId);
+        stmt.setString(2, selectedOption);
+
+        stmt.executeUpdate();
+    }
+
+
 }

@@ -33,4 +33,26 @@ public class VoteReadController extends HttpServlet {
             throw new ServletException("조회오류", e);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long id = Long.parseLong(req.getParameter("id"));
+        String selectedOption = req.getParameter("selectedOption");
+
+        if (selectedOption == null) {
+            req.setAttribute("error", "항목을 선택");
+            doGet(req, resp);
+            return;
+        }
+
+        try {
+            voteService.recordVote(id, selectedOption);
+            resp.sendRedirect(req.getContextPath() + "/Vote/list");
+        } catch (Exception e) {
+            log.error("투표 저장 오류: " + e.getMessage(), e);
+            throw new ServletException("투표 저장 오류", e);
+        }
+    }
+    
+
 }

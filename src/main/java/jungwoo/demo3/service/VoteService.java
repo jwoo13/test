@@ -53,12 +53,14 @@ public enum VoteService {
         return voteDTO;
     }
 
-
-
-    public void removeVote(Long id)throws Exception {
-
+    public void removeVote(Long id) throws Exception {
         dao.deleteOne(id);
     }
+
+    public void recordVote(Long voteId, String selectedOption) throws Exception {
+        dao.incrementVoteCount(voteId, selectedOption);
+    }
+
 
     public void modifyVote(VoteDTO voteDTO)throws Exception {
 
@@ -72,12 +74,9 @@ public enum VoteService {
     public List<VoteDTO> searchVotesByKeyword(String keyword) throws Exception {
         List<VoteVO> voList = dao.searchByKeyword(keyword);
 
-        log.info("검색된 투표 목록: " + voList);
-
         return voList.stream()
                 .map(vo -> modelMapper.map(vo, VoteDTO.class))
                 .collect(Collectors.toList());
     }
-
 
 }
